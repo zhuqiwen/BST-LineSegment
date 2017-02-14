@@ -62,25 +62,21 @@ public class BinarySearchTree<K> implements Tree<K> {
          * O(1) time.
          */
         protected void fixHeight() {
-            if(this.isLeaf())
-            {
+            if (this.isLeaf()) {
                 this.height = 1;
             }
-            else if(this.left != null && this.right != null)
+            else if (this.left != null && this.right != null)
             {
-                this.height = Math.max(this.left.height, this .right.height) + 1;
+                this.height = Math.max(this.left.height, this.right.height) + 1;
             }
-            else if(this.left != null)
+            else if (this.left != null)
             {
                 this.height = this.left.height + 1;
-            }
-            else
-            {
+            } else if (this.right != null) {
                 this.height = this.right.height + 1;
-            }
 
 //            System.out.println("current node -- " + this.get() + ": height --" + this.height);
-
+            }
         }
 
         /**
@@ -150,8 +146,32 @@ public class BinarySearchTree<K> implements Tree<K> {
      * Looks up the key in this tree and, if found, returns the (possibly dirty)
      * location containing the key.
      */
-    public Node search(K key) {
-        return null;
+    public Node search(K key)
+    {
+
+        return searchHelper(key, root);
+    }
+
+    private Node searchHelper(K key, Node node)
+    {
+        if(node == null)
+        {
+            return null;
+        }
+
+        if(node.data.equals(key))
+        {
+            return node;
+        }
+
+        if(lessThan.test(key, node.data))
+        {
+            return searchHelper(key, node.left);
+        }
+        else
+        {
+            return searchHelper(key, node.right);
+        }
     }
 
     /**
@@ -159,8 +179,10 @@ public class BinarySearchTree<K> implements Tree<K> {
      *
      * Returns the height of this tree. Runs in O(1) time!
      */
-    public int height() {
-        return 0;
+    public int height()
+    {
+        System.out.println(root.right.height);
+        return Math.max(root.left.height, root.right.height) + 1;
     }
 
     /**
@@ -200,7 +222,7 @@ public class BinarySearchTree<K> implements Tree<K> {
     {
         n++;
         root = insertHelper(key, root);
-        return root;
+        return search(key);
     }
 
 
@@ -220,19 +242,17 @@ public class BinarySearchTree<K> implements Tree<K> {
             node.left = insertHelper(key, node.left);
             node.left.parent = node;
 
-            System.out.println(node.data);
-            return node.left;
+//            System.out.println(node.data);
         }
         else
         {
             node.right = insertHelper(key, node.right);
             node.right.parent = node;
-            System.out.println(node.data);
 
-            return  node.right;
+//            System.out.println(node.data);
         }
 
-//        return node;
+        return node;
     }
 
     /**
