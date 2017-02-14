@@ -36,6 +36,15 @@ public class BinarySearchTree<K> implements Tree<K> {
          */
         public Node(K data, Node left, Node right)
         {
+            this.data = data;
+            this.right = right;
+            this.left = left;
+            //make sure a new node is not a deleted-node.
+            this.dirty = false;
+
+            //update the height of the current node.
+            fixHeight();
+
         }
 
         /**
@@ -53,6 +62,24 @@ public class BinarySearchTree<K> implements Tree<K> {
          * O(1) time.
          */
         protected void fixHeight() {
+            if(this.isLeaf())
+            {
+                this.height = 1;
+            }
+            else if(this.left != null && this.right != null)
+            {
+                this.height = Math.max(this.left.height, this .right.height) + 1;
+            }
+            else if(this.left != null)
+            {
+                this.height = this.left.height + 1;
+            }
+            else
+            {
+                this.height = this.right.height + 1;
+            }
+
+//            System.out.println("current node -- " + this.get() + ": height --" + this.height);
 
         }
 
@@ -61,8 +88,9 @@ public class BinarySearchTree<K> implements Tree<K> {
          *
          * Returns the data in this node.
          */
-        public K get() {
-            return null;
+        public K get()
+        {
+            return data;
         }
 
         /**
@@ -70,8 +98,14 @@ public class BinarySearchTree<K> implements Tree<K> {
          *
          * Returns the location of the node containing the inorder predecessor
          * of this node.
+         * left -> root -> right
          */
-        public Node getBefore() {
+        public Node getBefore()
+        {
+            //三种情况?
+            //如果是leaf, return null
+            //如果有left,则返回left max
+            //否则返回自己
             return null;
         }
 
@@ -80,8 +114,20 @@ public class BinarySearchTree<K> implements Tree<K> {
          *
          * Returns the location of the node containing the inorder successor
          * of this node.
+         * left -> root -> right
          */
         public Node getAfter() {
+            return null;
+        }
+
+
+        private Node maxInLeft()
+        {
+            return null;
+        }
+
+        private Node minInRight()
+        {
             return null;
         }
     }
@@ -122,7 +168,10 @@ public class BinarySearchTree<K> implements Tree<K> {
      *
      * Clears all the keys from this tree. Runs in O(1) time!
      */
-    public void clear() {
+    public void clear()
+    {
+        root = null;
+        n = 0;
     }
 
     /**
@@ -147,8 +196,43 @@ public class BinarySearchTree<K> implements Tree<K> {
      * Returns the location where the insert occurred (i.e., the leaf
      * node containing the key).
      */
-    public Node insert(K key) {
-        return null;
+    public Node insert(K key)
+    {
+        n++;
+        root = insertHelper(key, root);
+        return root;
+    }
+
+
+    private Node insertHelper(K key, Node node)
+    {
+        // if root is empty
+        if(node == null)
+        {
+            return new Node(key);
+        }
+
+
+
+        // if key < node.data
+        if(lessThan.test(key, node.data))
+        {
+            node.left = insertHelper(key, node.left);
+            node.left.parent = node;
+
+            System.out.println(node.data);
+            return node.left;
+        }
+        else
+        {
+            node.right = insertHelper(key, node.right);
+            node.right.parent = node;
+            System.out.println(node.data);
+
+            return  node.right;
+        }
+
+//        return node;
     }
 
     /**

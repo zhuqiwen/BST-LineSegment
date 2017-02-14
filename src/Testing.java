@@ -55,7 +55,7 @@ public class Testing {
     assertEquals(4, p.height);
   }
 
-  //@Test
+  @Test
   /**
    * When you're ready to run this test, remove the // from the above line.
    */
@@ -91,7 +91,7 @@ public class Testing {
     assertEquals(bst.root.right, bst.root.right.right.parent);
   }
   
-  //@Test
+  @Test
   public void clearSmallBST() {
     BinarySearchTree<Integer> bst = new BinarySearchTree<>((Integer x, Integer y) -> x < y);
     assertTrue(bst.isEmpty());
@@ -107,7 +107,7 @@ public class Testing {
     assertNotNull(bst.root);
   }
 
-  //@Test
+  @Test
   public void insertReturnBST() {
     BinarySearchTree<Integer> bst = new BinarySearchTree<>((Integer x, Integer y) -> x < y);
     assertTrue(bst.isEmpty());
