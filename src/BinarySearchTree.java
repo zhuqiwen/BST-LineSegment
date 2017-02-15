@@ -41,9 +41,10 @@ public class BinarySearchTree<K> implements Tree<K> {
             this.left = left;
             //make sure a new node is not a deleted-node.
             this.dirty = false;
+            this.height = 1;
 
             //update the height of the current node.
-            fixHeight();
+//            fixHeight();
 
         }
 
@@ -181,7 +182,7 @@ public class BinarySearchTree<K> implements Tree<K> {
      */
     public int height()
     {
-        System.out.println(root.right.height);
+//        System.out.println(root.right.height);
         return Math.max(root.left.height, root.right.height) + 1;
     }
 
@@ -252,6 +253,9 @@ public class BinarySearchTree<K> implements Tree<K> {
 //            System.out.println(node.data);
         }
 
+        // don't forget to fix current node's height!
+        node.fixHeight();
+
         return node;
     }
 
@@ -262,7 +266,13 @@ public class BinarySearchTree<K> implements Tree<K> {
      */
     public boolean contains(K key) {
         Node p = search(key);
-        return p != null;
+
+        if (p != null && p.dirty == false)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -271,7 +281,15 @@ public class BinarySearchTree<K> implements Tree<K> {
      * Removes the key from this BST. If the key is not in the tree,
      * nothing happens. Implement the removal using lazy deletion.
      */
-    public void remove(K key) {
+    public void remove(K key)
+    {
+        Node nodeToRemove = search(key);
+        if(nodeToRemove != null && !nodeToRemove.dirty)
+        {
+            nodeToRemove.dirty = true;
+            n--;
+        }
+
     }
 
     /**

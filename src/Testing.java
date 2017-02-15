@@ -116,7 +116,7 @@ public class Testing {
       assertEquals(key, bst.insert(key).get());
   }
   
-  //@Test
+  @Test
   public void skinnyBST() {
     BinarySearchTree<String> bst = 
         new BinarySearchTree<>((String x, String y) -> x.compareTo(y) < 0);
@@ -133,7 +133,7 @@ public class Testing {
     assertEquals("hog", bst.root.right.right.right.right.right.right.right.data);
   }
 
-  //@Test
+  @Test
   public void parentsSmallBST() {
     BinarySearchTree<Integer> bst = new BinarySearchTree<>((Integer x, Integer y) -> x < y);
     int[] a = new int[] { 4, 8, 0, 2, 6, 10 };
@@ -147,7 +147,7 @@ public class Testing {
     assertTrue(bst.root.right == bst.root.right.right.parent);    
   }
 
-  //@Test
+  @Test
   public void searchSmallBST() {
     BinarySearchTree<Integer> bst = new BinarySearchTree<>((Integer x, Integer y) -> x < y);
     int[] a = new int[] { 4, 8, 0, 2, 6, 10 };
@@ -165,7 +165,7 @@ public class Testing {
     }
   }
 
-  //@Test
+  @Test
   public void heightSmallBST() {
     BinarySearchTree<Integer> bst = new BinarySearchTree<>((Integer x, Integer y) -> x < y);
     int[] a = new int[] { 4, 8, 0, 2, 6, 10 };
@@ -189,7 +189,7 @@ public class Testing {
     assertEquals(1, bst.root.right.left.right.height);
   }
 
-  //@Test
+  @Test
   public void removeSmallBST() {
     BinarySearchTree<Integer> bst = new BinarySearchTree<>((Integer x, Integer y) -> x < y);
     int[] a = new int[] { 4, 8, 0, 2, 6, 10 };
