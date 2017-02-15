@@ -221,9 +221,15 @@ public class BinarySearchTree<K> implements Tree<K> {
      */
     public Node insert(K key)
     {
-        n++;
-        root = insertHelper(key, root);
-        return search(key);
+        if(!contains(key))
+        {
+            n++;
+            root = insertHelper(key, root);
+            return search(key);
+        }
+
+        return null;
+
     }
 
 
@@ -267,7 +273,7 @@ public class BinarySearchTree<K> implements Tree<K> {
     public boolean contains(K key) {
         Node p = search(key);
 
-        if (p != null && p.dirty == false)
+        if (p != null && !p.dirty)
         {
             return true;
         }
@@ -284,6 +290,7 @@ public class BinarySearchTree<K> implements Tree<K> {
     public void remove(K key)
     {
         Node nodeToRemove = search(key);
+//        if(nodeToRemove != null && !nodeToRemove.dirty)
         if(nodeToRemove != null && !nodeToRemove.dirty)
         {
             nodeToRemove.dirty = true;
