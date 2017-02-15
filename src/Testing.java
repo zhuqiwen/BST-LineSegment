@@ -318,10 +318,10 @@ public class Testing {
         assertNull(bst.root);
 
         System.out.println(bst.height());
-//        assertEquals(0, bst.height());
+        assertEquals(0, bst.height());
     }
 
-    //@Test
+    @Test
     public void bigBSTtest() {
         BinarySearchTree<Integer> bst = new BinarySearchTree<>((Integer x, Integer y) -> x < y);
         Random gen = new Random();
@@ -346,7 +346,7 @@ public class Testing {
         }
     }
 
-    //@Test
+    @Test
     public void beforeBST() {
         BinarySearchTree<Integer> bst = new BinarySearchTree<>((Integer x, Integer y) -> x < y);
         assertTrue(bst.isEmpty());
@@ -359,7 +359,7 @@ public class Testing {
             assertTrue(i - 1 == bst.search(i).getBefore().get());
     }
 
-    //@Test
+    @Test
     public void afterBST() {
         BinarySearchTree<Integer> bst = new BinarySearchTree<>((Integer x, Integer y) -> x < y);
         assertTrue(bst.isEmpty());

@@ -99,11 +99,25 @@ public class BinarySearchTree<K> implements Tree<K> {
          */
         public Node getBefore()
         {
-            //三种情况?
-            //如果是leaf, return null
-            //如果有left,则返回left max
-            //否则返回自己
-            return null;
+            if(left != null)
+            {
+                return maxInLeft(left);
+            }
+
+            if(this.parent != null && this.equals(this.parent.right))
+            {
+                return this.parent;
+            }
+
+            Node currParent = this.parent;
+            Node current = this;
+            while(currParent != null && current.equals(currParent.left))
+            {
+                current = currParent;
+                currParent = currParent.parent;
+            }
+
+            return currParent;
         }
 
         /**
@@ -113,19 +127,48 @@ public class BinarySearchTree<K> implements Tree<K> {
          * of this node.
          * left -> root -> right
          */
-        public Node getAfter() {
-            return null;
+        public Node getAfter()
+        {
+            if(right != null)
+            {
+                return minInRight(right);
+            }
+
+            if(this.parent != null && this.equals(this.parent.left))
+            {
+                return this.parent;
+            }
+
+            Node currParent = this.parent;
+            Node current = this;
+            while(currParent != null && current.equals(currParent.right))
+            {
+                current = currParent;
+                currParent = currParent.parent;
+            }
+
+            return currParent;
+
         }
 
 
-        private Node maxInLeft()
+        private Node maxInLeft(Node node)
         {
-            return null;
+            while(node.right != null)
+            {
+                node = node.right;
+            }
+
+            return node;
         }
 
-        private Node minInRight()
+        private Node minInRight(Node node)
         {
-            return null;
+            while (node.left != null)
+            {
+                node = node.left;
+            }
+            return node;
         }
     }
 
