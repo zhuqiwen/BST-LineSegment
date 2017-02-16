@@ -36,34 +36,36 @@ public class AVLTree<K> extends BinarySearchTree<K> {
     }
 
 
-    /**
-     * calculate balance factor of a node; will be used in checkBalance()
-     * return -1, 0, or 1 if balanced
-     * return other values if not balanced; then need to rebalance the tree
-     * @param node
-     * @return int value that represent status of balance of the passed node
-     */
-    private int getBalanceFactor(Node node)
+    private void rebalance(Node parent, K key)
     {
-        if(node != null)
-        {
-            return node.left.height - node.right.height;
-        }
-        return 0;
-    }
+        int balanceFactor = parent.parent.getBalanceFactor();
 
-    private void rebalance(Node node, K key)
-    {
-        int balanceFactor = getBalanceFactor(node);
-
-        if(lessThan.test(key, node.data))
+        if(lessThan.test(key, parent.data))
         {
             //key 在 node 的左边
+            if(balanceFactor > 1)
+            {
+                // RL
+            }
+
+            if(balanceFactor < -1)
+            {
+                //LL
+            }
         }
 
-        if(lessThan.test(node.data, key))
+        if(lessThan.test(parent.data, key))
         {
             //key 在 node 的右边
+            if(balanceFactor > 1)
+            {
+                //RR
+            }
+
+            if(balanceFactor < -1)
+            {
+                //LR
+            }
         }
 
     }
