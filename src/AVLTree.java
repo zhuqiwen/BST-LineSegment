@@ -29,20 +29,12 @@ public class AVLTree<K> extends BinarySearchTree<K> {
     public Node insert(K key) {
         Node q = super.insert(key);
 
-        // after insert, we should check if the current tree is balanced
-        if(!checkBalance())
-        {
-            rebalance();
-        }
-
+        // after insert, do rebalance
+        rebalance(q.parent, key);
 
         return search(key);
     }
 
-    private boolean checkBalance()
-    {
-        return true;
-    }
 
     /**
      * calculate balance factor of a node; will be used in checkBalance()
@@ -57,12 +49,32 @@ public class AVLTree<K> extends BinarySearchTree<K> {
         {
             return node.left.height - node.right.height;
         }
-
-        return -1;
+        return 0;
     }
 
-    private void rebalance()
+    private void rebalance(Node node, K key)
     {
+        int balanceFactor = getBalanceFactor(node);
 
+        if(lessThan.test(key, node.data))
+        {
+            //key 在 node 的左边
+        }
+
+        if(lessThan.test(node.data, key))
+        {
+            //key 在 node 的右边
+        }
+
+    }
+
+    private Node leftRotate(Node node)
+    {
+        return node;
+    }
+
+    private Node rightRotate(Node node)
+    {
+        return node;
     }
 }

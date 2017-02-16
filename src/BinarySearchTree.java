@@ -21,6 +21,7 @@ public class BinarySearchTree<K> implements Tree<K> {
         protected Node parent;     // the parent of this node
         protected int height;      // the height of the subtree rooted at this node
         protected boolean dirty;   // true iff the key in this node has been removed
+//        protected int balanceFactor; // maintains balance factor of current node
 
         /**
          * Constructs a leaf node with the given key.
@@ -42,10 +43,42 @@ public class BinarySearchTree<K> implements Tree<K> {
             //make sure a new node is not a deleted-node.
             this.dirty = false;
             this.height = 1;
+//            this.balanceFactor = getBalanceFactor();
+        }
 
-            //update the height of the current node.
-//            fixHeight();
 
+        protected int getBalanceFactor()
+        {
+//            if(this != null)
+//            {
+//                return this.left.height - this.right.height;
+//            }
+//
+//            return 0;
+//            if(isLeaf())
+//            {
+//                return 0;
+//            }
+
+            // has both children
+            if(this.left != null && this.right != null)
+            {
+                return  this.right.height - this.left.height;
+            }
+
+            // has onlly left child, then the balance factor of current is the height (negative int) of left child
+            if(this.left != null)
+            {
+                return 0 - this.left.height;
+            }
+
+            // has only right child, then the balance factor of current is the height (positive int) of right child
+            if(this.right != null)
+            {
+                return this.right.height;
+            }
+
+            return 0;
         }
 
         /**

@@ -89,6 +89,27 @@ public class Testing {
         assertEquals(bst.root.left, bst.root.left.right.parent);
         assertEquals(bst.root.right, bst.root.right.left.parent);
         assertEquals(bst.root.right, bst.root.right.right.parent);
+
+    }
+
+    @Test
+    public void checkBalance()
+    {
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>((Integer x, Integer y) -> x < y);
+        assertTrue(bst.isEmpty());
+        int[] a = new int[] { 4, 8, 0, 2, 6, 10, 11, 12};
+        int n = 0;
+        for (Integer key : a) {
+            bst.insert(key);
+        }
+
+        for(Integer k : a)
+        {
+            System.out.println("node: " + k);
+            System.out.println("balance factor: " + bst.search(k).getBalanceFactor());
+        }
+
+
     }
 
     @Test
@@ -337,6 +358,9 @@ public class Testing {
             assertTrue(verifyOrderingProperty(bst.root, bst.lessThan));
             assertTrue(verifyHeights(bst.root));
         }
+
+
+
         while (!a.isEmpty()) {
             int i = gen.nextInt(a.size());
             int x = a.get(i);
