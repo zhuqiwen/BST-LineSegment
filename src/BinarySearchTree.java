@@ -49,17 +49,6 @@ public class BinarySearchTree<K> implements Tree<K> {
 
         protected int getBalanceFactor()
         {
-//            if(this != null)
-//            {
-//                return this.left.height - this.right.height;
-//            }
-//
-//            return 0;
-//            if(isLeaf())
-//            {
-//                return 0;
-//            }
-
             // has both children
             if(this.left != null && this.right != null)
             {

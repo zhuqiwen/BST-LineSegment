@@ -109,6 +109,20 @@ public class Testing {
             System.out.println("balance factor: " + bst.search(k).getBalanceFactor());
         }
 
+        // another tree
+        bst.clear();
+        a = new int[] { 4, 8, 0, 2, 6, 5, 7, 10, 12, 9};
+        for (Integer key : a) {
+            bst.insert(key);
+        }
+
+        System.out.println("*************first test finished********");
+        for(Integer k : a)
+        {
+            System.out.println("node: " + k);
+            System.out.println("balance factor: " + bst.search(k).getBalanceFactor());
+        }
+
 
     }
 
