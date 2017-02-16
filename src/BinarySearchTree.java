@@ -227,9 +227,18 @@ public class BinarySearchTree<K> implements Tree<K> {
             root = insertHelper(key, root);
             return search(key);
         }
+//        else if(search(key).dirty == true)
+//        {
+//            search(key).dirty = false;
+//            System.out.println(key);
+//            System.out.println("hahaha");
+//            System.out.println(search(key).dirty);
+//
+//            return search(key);
+//        }
+//        System.out.println(search(key).dirty);
 
         return null;
-
     }
 
 
@@ -297,6 +306,8 @@ public class BinarySearchTree<K> implements Tree<K> {
             n--;
         }
 
+        System.out.println(search(key).get() + " removed");
+        System.out.println(search(key).dirty);
     }
 
     /**
