@@ -255,10 +255,10 @@ public class Testing {
             bst.insert(key);
             dirtyCount--;
             size++;
-            System.out.println(bst.search(key).dirty);
-//            assertEquals(size, bst.size());
-//            assertTrue(!bst.search(key).dirty);
-//            assertEquals(dirtyCount, countDirtyNodes(bst.root));
+//            System.out.println(bst.search(key).dirty);
+            assertEquals(size, bst.size());
+            assertTrue(!bst.search(key).dirty);
+            assertEquals(dirtyCount, countDirtyNodes(bst.root));
         }
     }
 
