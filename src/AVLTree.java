@@ -46,11 +46,37 @@ public class AVLTree<K> extends BinarySearchTree<K> {
         if(lessThan.test(key, parent.data))
         {
             //key 在 node 的左边
+
+            /*
+            since balance factor = right.height - left.height,
+            positive value means parent is on right
+
+                     grandParent                    grandParent
+                           \                             \
+                            \                             \                            q
+                          parent        ---->>             q          -->>            /  \
+                            /                               \                        /    \
+                           /                                 \              grandParent   parent
+                          q                                parent
+
+             */
             if(balanceFactor > 1)
             {
                 // RL
             }
 
+            /*
+            since balance factor = right.height - left.height,
+            negative value means parent is on left
+
+                       grandParent
+                        /
+                       /                                   parent
+                     parent            ---->>               /  \
+                     /                                     /    \
+                    /                                     q    grandParent
+                   q
+             */
             if(balanceFactor < -1)
             {
                 //LL
@@ -60,11 +86,33 @@ public class AVLTree<K> extends BinarySearchTree<K> {
         if(lessThan.test(parent.data, key))
         {
             //key 在 node 的右边
+
+            /*
+
+                       grandParent
+                           \
+                            \                       parent
+                            parent   ---->>          /  \
+                              \                     /    \
+                               \          grandParent     q
+                               q
+             */
+
             if(balanceFactor > 1)
             {
                 //RR
             }
 
+            /*
+
+                       grandParent            grandParent
+                           /                        /
+                          /                        /                           p
+                        parent      ---->>        p         ---->>           /   \
+                          \                      /                          /     \
+                           \                    /                   grandParent  parent
+                            q                 parent
+             */
             if(balanceFactor < -1)
             {
                 //LR
