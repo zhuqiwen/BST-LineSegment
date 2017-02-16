@@ -30,18 +30,18 @@ public class AVLTree<K> extends BinarySearchTree<K> {
         Node q = super.insert(key);
 
         // after insert, do rebalance
-        if(q.parent.parent != null)
+        if(q.parent != null && q.parent.parent != null)
         {
-            rebalance(q.parent, key);
+            rebalance(q.parent, key, q, q.parent.parent);
         }
 
         return search(key);
     }
 
 
-    private void rebalance(Node parent, K key)
+    private void rebalance(Node parent, K key, Node q, Node grandParent)
     {
-        int balanceFactor = parent.parent.getBalanceFactor();
+        int balanceFactor = grandParent.getBalanceFactor();
 
         if(lessThan.test(key, parent.data))
         {
