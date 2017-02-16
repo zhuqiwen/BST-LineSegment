@@ -99,11 +99,25 @@ public class BinarySearchTree<K> implements Tree<K> {
          */
         public Node getBefore()
         {
-            //三种情况?
-            //如果是leaf, return null
-            //如果有left,则返回left max
-            //否则返回自己
-            return null;
+            if(left != null)
+            {
+                return maxInLeft(left);
+            }
+
+            if(this.parent != null && this.equals(this.parent.right))
+            {
+                return this.parent;
+            }
+
+            Node currParent = this.parent;
+            Node current = this;
+            while(currParent != null && current.equals(currParent.left))
+            {
+                current = currParent;
+                currParent = currParent.parent;
+            }
+
+            return currParent;
         }
 
         /**
@@ -113,19 +127,48 @@ public class BinarySearchTree<K> implements Tree<K> {
          * of this node.
          * left -> root -> right
          */
-        public Node getAfter() {
-            return null;
+        public Node getAfter()
+        {
+            if(right != null)
+            {
+                return minInRight(right);
+            }
+
+            if(this.parent != null && this.equals(this.parent.left))
+            {
+                return this.parent;
+            }
+
+            Node currParent = this.parent;
+            Node current = this;
+            while(currParent != null && current.equals(currParent.right))
+            {
+                current = currParent;
+                currParent = currParent.parent;
+            }
+
+            return currParent;
+
         }
 
 
-        private Node maxInLeft()
+        private Node maxInLeft(Node node)
         {
-            return null;
+            while(node.right != null)
+            {
+                node = node.right;
+            }
+
+            return node;
         }
 
-        private Node minInRight()
+        private Node minInRight(Node node)
         {
-            return null;
+            while (node.left != null)
+            {
+                node = node.left;
+            }
+            return node;
         }
     }
 
@@ -183,7 +226,21 @@ public class BinarySearchTree<K> implements Tree<K> {
     public int height()
     {
 //        System.out.println(root.right.height);
-        return Math.max(root.left.height, root.right.height) + 1;
+//        return Math.max(root.left.height, root.right.height) + 1;
+        return heightHelper(root);
+    }
+
+    private int heightHelper(Node node)
+    {
+        if(node == null)
+        {
+            return 0;
+        }
+
+        return Math.max(
+                node.left == null ? 0 : node.left.height,
+                node.right == null? 0 : node.right.height)
+                + 1;
     }
 
     /**
@@ -221,24 +278,32 @@ public class BinarySearchTree<K> implements Tree<K> {
      */
     public Node insert(K key)
     {
-        if(!contains(key))
+        Node searchNode = search(key);
+
+        // if the key is new
+        if(searchNode == null)
         {
             n++;
             root = insertHelper(key, root);
-            return search(key);
         }
-//        else if(search(key).dirty == true)
-//        {
-//            search(key).dirty = false;
-//            System.out.println(key);
-//            System.out.println("hahaha");
-//            System.out.println(search(key).dirty);
-//
-//            return search(key);
-//        }
-//        System.out.println(search(key).dirty);
+        //if the key is already in bst
+        else
+        {
+            //if the key is soft deleted, meaning marked as dirty.
+            if(searchNode.dirty)
+            {
+                undoDirty(searchNode);
+            }
+        }
 
-        return null;
+        return search(key);
+    }
+
+    // a helper to set dirty to false for existing keys
+    private void undoDirty(Node node)
+    {
+        n++;
+        node.dirty = false;
     }
 
 
@@ -298,16 +363,12 @@ public class BinarySearchTree<K> implements Tree<K> {
      */
     public void remove(K key)
     {
-        Node nodeToRemove = search(key);
-//        if(nodeToRemove != null && !nodeToRemove.dirty)
-        if(nodeToRemove != null && !nodeToRemove.dirty)
+        if(contains(key))
         {
-            nodeToRemove.dirty = true;
+            this.search(key).dirty = true;
             n--;
         }
 
-        System.out.println(search(key).get() + " removed");
-        System.out.println(search(key).dirty);
     }
 
     /**
@@ -320,7 +381,14 @@ public class BinarySearchTree<K> implements Tree<K> {
      * (2) Clear this tree.
      * (2) For each key in ks, insert it into this tree.
      */
-    public void rebuild() {
+    public void rebuild()
+    {
+        List<K> ks = keys();
+        clear();
+        for(K k : ks)
+        {
+            insert(k);
+        }
     }
 
     /**
@@ -328,8 +396,33 @@ public class BinarySearchTree<K> implements Tree<K> {
      *
      * Returns a sorted list of all the keys in this tree.
      */
-    public List<K> keys() {
-        return null;
+    public List<K> keys()
+    {
+        List<K> keysList = new LinkedList<>();
+        keysHelper(keysList, root);
+
+        return keysList;
+    }
+
+    private void keysHelper(List<K> keysList, Node node)
+    {
+        if(node == null)
+        {
+            return;
+        }
+
+        if(node.left != null)
+        {
+            keysHelper(keysList,node.left);
+        }
+        if(!node.dirty)
+        {
+            keysList.add(node.data);
+        }
+        if(node.right != null)
+        {
+            keysHelper(keysList, node.right);
+        }
     }
 
     /**
