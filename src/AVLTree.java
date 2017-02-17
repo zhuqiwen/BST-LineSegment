@@ -37,7 +37,7 @@ public class AVLTree<K> extends BinarySearchTree<K> {
         }
 
 
-        System.out.println("root: " + root.data);
+//        System.out.println("root: " + root.data);
         return search(key);
     }
 
@@ -56,47 +56,38 @@ public class AVLTree<K> extends BinarySearchTree<K> {
             // right overweight
             if(balanceFactor > 1)
             {
-                System.out.println("R");
                 if(lessThan.test(low.data, middle.data))
                 {
                     //RL
-                    return;
+//                    return;
+                    rightLeftRotate(high);
                 }
 
                 if(lessThan.test(middle.data, low.data))
                 {
                     //RR
                     rightRotate(high);
-                    return;
+//                    return;
                 }
             }
 
             // left overweight
             if(balanceFactor < -1)
             {
-                System.out.println("L");
 
                 if(lessThan.test(low.data, middle.data))
                 {
-                    System.out.println("LL");
 
                     //LL
                     leftRotate(high);
-//                    System.out.println("root: ");
-//                    System.out.println(root.data);
-////                    System.out.println("root.left: ");
-////                    System.out.println(this.root.left.data);
-//                    System.out.println("root.right: ");
-//                    System.out.println(root.right.data);
 
-
-                    return;
                 }
 
                 if(lessThan.test(middle.data, low.data))
                 {
                     //LR
-                    return;
+//                    return;
+                    leftRightRotate(high);
                 }
 
             }
@@ -182,5 +173,104 @@ public class AVLTree<K> extends BinarySearchTree<K> {
 
         pivot.fixHeight();
         middle.fixHeight();
+    }
+
+    private void leftRightRotate(Node pivot)
+    {
+        Node middle = pivot.left;
+        Node low = middle.right;
+
+        if(pivot == root)
+        {
+            root = low;
+            low.parent = null;
+        }
+        else
+        {
+            if(pivot.parent.left == pivot)
+            {
+                pivot.parent.left = low;
+            }
+            else
+            {
+                pivot.parent.right = low;
+            }
+
+            low.parent = pivot.parent;
+        }
+
+        pivot.left = low.right;
+        if(low.right != null)
+        {
+            low.right.parent = pivot;
+
+        }
+
+        middle.right = low.left;
+        if(low.left != null)
+        {
+            low.left.parent = middle;
+        }
+
+        low.left = middle;
+        middle.parent = low;
+
+        low.right = pivot;
+        pivot.parent = low;
+
+        pivot.fixHeight();
+        middle.fixHeight();
+        low.fixHeight();
+
+
+    }
+
+    private void rightLeftRotate(Node pivot)
+    {
+        Node middle = pivot.right;
+        Node low = middle.left;
+
+        if(pivot == root)
+        {
+            root = low;
+            low.parent = null;
+        }
+        else
+        {
+            if(pivot.parent.left == pivot)
+            {
+                pivot.parent.left = low;
+            }
+            else
+            {
+                pivot.parent.right = low;
+            }
+
+            low.parent = pivot.parent;
+        }
+
+        pivot.right = low.left;
+        if(low.left != null)
+        {
+            low.left.parent = pivot;
+
+        }
+
+        middle.left = low.right;
+        if(low.right != null)
+        {
+            low.right.parent = middle;
+        }
+
+        low.left = pivot;
+        pivot.parent = low;
+
+        low.right = middle;
+        middle.parent = low;
+
+        pivot.fixHeight();
+        middle.fixHeight();
+        low.fixHeight();
+
     }
 }

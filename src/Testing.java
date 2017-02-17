@@ -538,7 +538,7 @@ public class Testing {
         assertEquals(1, avl.root.right.height);
     }
 
-    //@Test
+    @Test
     public void LRtinyAVL() {
         BinarySearchTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         int[] a = new int[] { 3, 1, 2 };
@@ -561,7 +561,7 @@ public class Testing {
         assertEquals(1, avl.root.right.height);
     }
 
-    //@Test
+    @Test
     public void RLtinyAVL() {
         BinarySearchTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         int[] a = new int[] { 1, 3, 2 };
@@ -648,7 +648,7 @@ public class Testing {
         assertEquals(1, avl.root.right.right.height);
     }
 
-    //@Test
+    @Test
     public void LRsmallAVL() {
         BinarySearchTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         int[] a = new int[] { 5, 2, 6, 1, 3 };
@@ -687,7 +687,7 @@ public class Testing {
         assertEquals(1, avl.root.right.right.height);
     }
 
-    //@Test
+    @Test
     public void RLsmallAVL() {
         BinarySearchTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         int[] a = new int[] { 2, 1, 5, 3, 6 };
@@ -745,6 +745,7 @@ public class Testing {
         a = new int[] { 5, 3, 1, 2, 7, 6, 9, 8, -1, -7, -5, -2, -3, 10, 15, 13, 12, 19, 20, 21};
         for (Integer x : a) {
             avl.insert(x);
+            System.out.println(avl.height());
         }
         assertEquals(5, avl.height());
         assert verifyParentPointers(avl.root);
@@ -836,7 +837,7 @@ public class Testing {
         }
     }
 
-    //@Test
+    @Test
     public void keysDirtyAVL() {
         AVLTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         int[] a = new int[] { 26, 5, 28, 32, 4, 8, 0, 2, 3, 6, 10, 12, 22, 1, 14, 20, 16, 18, 7, 24, 30 };

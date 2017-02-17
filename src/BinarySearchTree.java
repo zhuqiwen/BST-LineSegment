@@ -225,11 +225,6 @@ public class BinarySearchTree<K> implements Tree<K> {
             return null;
         }
 
-//        if(node.data.equals(key))
-//        {
-//            return node;
-//        }
-
         if(lessThan.test(key, node.data))
         {
             return searchHelper(key, node.left);
