@@ -29,105 +29,158 @@ public class AVLTree<K> extends BinarySearchTree<K> {
     public Node insert(K key) {
         Node q = super.insert(key);
 
-        // after insert, do rebalance
+//        System.out.println(q.data);
+
         if(q.parent != null && q.parent.parent != null)
         {
-            rebalance(q.parent, key, q, q.parent.parent);
+            rebalance(q);
         }
 
+
+        System.out.println("root: " + root.data);
         return search(key);
     }
 
-
-    private void rebalance(Node parent, K key, Node q, Node grandParent)
+    private void rebalance(Node low)
     {
-        int balanceFactor = grandParent.getBalanceFactor();
+        Node middle = low.parent;
+        Node high = middle.parent;
+        int balanceFactor;
 
-        if(lessThan.test(key, parent.data))
+        while (high != null)
         {
-            //key 在 node 的左边
+            balanceFactor = high.getBalanceFactor();
 
-            /*
-            since balance factor = right.height - left.height,
-            positive value means parent is on right
+            //if there is a pivot
 
-                     grandParent                    grandParent
-                           \                             \
-                            \                             \                            q
-                          parent        ---->>             q          -->>            /  \
-                            /                               \                        /    \
-                           /                                 \              grandParent   parent
-                          q                                parent
-
-             */
+            // right overweight
             if(balanceFactor > 1)
             {
-                // RL
+                System.out.println("R");
+                if(lessThan.test(low.data, middle.data))
+                {
+                    //RL
+                    return;
+                }
+
+                if(lessThan.test(middle.data, low.data))
+                {
+                    //RR
+                    rightRotate(high);
+                    return;
+                }
             }
 
-            /*
-            since balance factor = right.height - left.height,
-            negative value means parent is on left
-
-                       grandParent
-                        /
-                       /                                   parent
-                     parent            ---->>               /  \
-                     /                                     /    \
-                    /                                     q    grandParent
-                   q
-             */
+            // left overweight
             if(balanceFactor < -1)
             {
-                //LL
+                System.out.println("L");
+
+                if(lessThan.test(low.data, middle.data))
+                {
+                    System.out.println("LL");
+
+                    //LL
+                    leftRotate(high);
+//                    System.out.println("root: ");
+//                    System.out.println(root.data);
+////                    System.out.println("root.left: ");
+////                    System.out.println(this.root.left.data);
+//                    System.out.println("root.right: ");
+//                    System.out.println(root.right.data);
+
+
+                    return;
+                }
+
+                if(lessThan.test(middle.data, low.data))
+                {
+                    //LR
+                    return;
+                }
+
             }
-        }
 
-        if(lessThan.test(parent.data, key))
-        {
-            //key 在 node 的右边
-
-            /*
-
-                       grandParent
-                           \
-                            \                       parent
-                            parent   ---->>          /  \
-                              \                     /    \
-                               \          grandParent     q
-                               q
-             */
-
-            if(balanceFactor > 1)
-            {
-                //RR
-            }
-
-            /*
-
-                       grandParent            grandParent
-                           /                        /
-                          /                        /                           p
-                        parent      ---->>        p         ---->>           /   \
-                          \                      /                          /     \
-                           \                    /                   grandParent  parent
-                            q                 parent
-             */
-            if(balanceFactor < -1)
-            {
-                //LR
-            }
+            //walk up
+            low = middle;
+            middle = high;
+            high = high.parent;
         }
 
     }
 
-    private Node leftRotate(Node node)
+    private void leftRotate(Node pivot)
     {
-        return node;
+
+        Node middle = pivot.left;
+
+        if(pivot == root)
+        {
+            root = middle;
+            middle.parent = null;
+        }
+        else
+        {
+            if(pivot.parent.left == pivot)
+            {
+                pivot.parent.left = middle;
+            }
+            else
+            {
+                pivot.parent.right = middle;
+            }
+
+            middle.parent = pivot.parent;
+        }
+
+        pivot.left = middle.right;
+        if(middle.right != null)
+        {
+            middle.right.parent = pivot;
+        }
+
+        middle.right = pivot;
+        pivot.parent = middle;
+
+        pivot.fixHeight();
+        middle.fixHeight();
+
     }
 
-    private Node rightRotate(Node node)
+    private void rightRotate(Node pivot)
     {
-        return node;
+        Node middle = pivot.right;
+
+        if(pivot == root)
+        {
+            root = middle;
+            middle.parent = null;
+        }
+        else
+        {
+            if(pivot.parent.right == pivot)
+            {
+                pivot.parent.right = middle;
+            }
+            else
+            {
+                pivot.parent.left = middle;
+            }
+
+            middle.parent = pivot.parent;
+
+        }
+
+        pivot.right = middle.left;
+        if(middle.left != null)
+        {
+            middle.left.parent = pivot;
+        }
+
+        middle.left = pivot;
+        pivot.parent = middle;
+
+        pivot.fixHeight();
+        middle.fixHeight();
     }
 }

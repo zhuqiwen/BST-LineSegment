@@ -92,7 +92,7 @@ public class Testing {
 
     }
 
-    @Test
+    //@Test
     public void checkBalance()
     {
         BinarySearchTree<Integer> bst = new BinarySearchTree<>((Integer x, Integer y) -> x < y);
@@ -124,6 +124,29 @@ public class Testing {
         }
 
 
+    }
+
+    @Test
+    public void reinsertAfterRemoveBST() {
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>((Integer x, Integer y) -> x < y);
+        assertTrue(bst.isEmpty());
+        int[] a = new int[] { 4, 8, 0, 2, 6, 10 };
+        List<Location<Integer>> locs = new ArrayList<>();
+        for (Integer key : a)
+            locs.add(bst.insert(key));
+        for (Integer key : a)
+            bst.remove(key);
+        // Make sure we are reusing the dirty node.
+        int i = 0;
+        BinarySearchTree<Integer>.Node loc;
+        for (Integer key : a) {
+            loc = bst.search(key);
+            assertTrue(loc.dirty);
+            assertTrue(loc == locs.get(i));
+            assertTrue(bst.insert(key) == locs.get(i));
+            assertFalse(loc.dirty);
+            i++;
+        }
     }
 
     @Test
@@ -269,7 +292,7 @@ public class Testing {
             assertEquals(0, countDirtyNodes(bst.root));
         }
 
-        System.out.println("***********");
+//        System.out.println("***********");
         // Attempts to insert a previously removed key should reuse the dirty node.
         int size = a.length, dirtyCount = 0;
         for (Integer key : a) {
@@ -305,7 +328,7 @@ public class Testing {
             bst.insert(key);
         List<Integer> ks = bst.keys();
 
-        System.out.println(ks);
+//        System.out.println(ks);
         assertEquals(a.length, ks.size());
         for (int i = 1; i < ks.size(); i++)
             assertTrue(ks.get(i - 1) <= ks.get(i));
@@ -320,13 +343,13 @@ public class Testing {
         for (Integer key : a)
             bst.insert(key);
         List<Integer> ks = bst.keys();
-        System.out.println(ks);
+//        System.out.println(ks);
         for (Integer key : ks)
             if (key % 2 == 1)
                 bst.remove(key);
-        System.out.println(bst.size());
+//        System.out.println(bst.size());
         ks = bst.keys();
-        System.out.println(ks);
+//        System.out.println(ks);
 
         assertEquals(a.length - 4, ks.size());
         for (Integer key : ks)
@@ -355,7 +378,7 @@ public class Testing {
         }
         assertNull(bst.root);
 
-        System.out.println(bst.height());
+//        System.out.println(bst.height());
         assertEquals(0, bst.height());
     }
 
@@ -418,7 +441,7 @@ public class Testing {
      * in action.
      **********************************************************************************/
 
-    //@Test
+    @Test
     public void insertAVL() {
         BinarySearchTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         int[] a = new int[] { 3, 8, 1, 2, 7, 9 };
@@ -469,7 +492,7 @@ public class Testing {
         assertNull(avl.search(n).getAfter());
     }
 
-    //@Test
+    @Test
     public void LLtinyAVL() {
         BinarySearchTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         int[] a = new int[] { 3, 2, 1 };
@@ -492,7 +515,7 @@ public class Testing {
         assertEquals(1, avl.root.right.height);
     }
 
-    //@Test
+    @Test
     public void RRtinyAVL() {
         BinarySearchTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         int[] a = new int[] { 1, 2, 3 };
@@ -561,7 +584,7 @@ public class Testing {
         assertEquals(1, avl.root.right.height);
     }
 
-    //@Test
+    @Test
     public void LLsmallAVL() {
         BinarySearchTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         int[] a = new int[] { 5, 6, 3, 2, 4, 1 };
@@ -593,7 +616,7 @@ public class Testing {
         assertEquals(1, avl.root.right.right.height);
     }
 
-    //@Test
+    @Test
     public void RRsmallAVL() {
         BinarySearchTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         int[] a = new int[] { 2, 1, 4, 3, 5, 6 };
@@ -703,7 +726,7 @@ public class Testing {
         assertEquals(1, avl.root.right.right.height);
     }
 
-    //@Test
+    @Test
     public void keysSmallAVL() {
         AVLTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         int[] a = new int[] { 4, 8, 0, 2, 6, 10 };
