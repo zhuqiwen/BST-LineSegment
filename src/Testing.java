@@ -92,39 +92,6 @@ public class Testing {
 
     }
 
-    //@Test
-    public void checkBalance()
-    {
-        BinarySearchTree<Integer> bst = new BinarySearchTree<>((Integer x, Integer y) -> x < y);
-        assertTrue(bst.isEmpty());
-        int[] a = new int[] { 4, 8, 0, 2, 6, 10, 11, 12};
-        int n = 0;
-        for (Integer key : a) {
-            bst.insert(key);
-        }
-
-        for(Integer k : a)
-        {
-            System.out.println("node: " + k);
-            System.out.println("balance factor: " + bst.search(k).getBalanceFactor());
-        }
-
-        // another tree
-        bst.clear();
-        a = new int[] { 4, 8, 0, 2, 6, 5, 7, 10, 12, 9};
-        for (Integer key : a) {
-            bst.insert(key);
-        }
-
-        System.out.println("*************first test finished********");
-        for(Integer k : a)
-        {
-            System.out.println("node: " + k);
-            System.out.println("balance factor: " + bst.search(k).getBalanceFactor());
-        }
-
-
-    }
 
     @Test
     public void reinsertAfterRemoveBST() {
@@ -466,7 +433,7 @@ public class Testing {
         assertEquals(0, avl.height());
     }
 
-    //@Test
+    @Test
     public void beforeAVL() {
         BinarySearchTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         assertTrue(avl.isEmpty());
@@ -479,7 +446,7 @@ public class Testing {
             assertTrue(i - 1 == avl.search(i).getBefore().get());
     }
 
-    //@Test
+    @Test
     public void afterAVL() {
         BinarySearchTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         assertTrue(avl.isEmpty());
@@ -738,14 +705,15 @@ public class Testing {
             assertTrue(ks.get(i - 1) <= ks.get(i));
     }
 
-    //@Test
+    @Test
     public void mediumAVLtest() {
         int[] a;
         AVLTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         a = new int[] { 5, 3, 1, 2, 7, 6, 9, 8, -1, -7, -5, -2, -3, 10, 15, 13, 12, 19, 20, 21};
         for (Integer x : a) {
             avl.insert(x);
-            System.out.println(avl.height());
+//            System.out.println("after insert " + x + ", the height of the tree is:");
+//            System.out.println(avl.height());
         }
         assertEquals(5, avl.height());
         assert verifyParentPointers(avl.root);
@@ -811,7 +779,7 @@ public class Testing {
         }
     }
 
-    //@Test
+    @Test
     public void bigAVLtest() {
         AVLTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         Random gen = new Random();
@@ -855,7 +823,7 @@ public class Testing {
             assertTrue(ks.get(i - 1) <= ks.get(i));
     }
 
-    //@Test
+    @Test
     public void rebuildSmallAVL() {
         AVLTree<Integer> avl = new AVLTree<>((Integer x, Integer y) -> x < y);
         int[] a = new int[] { 4, 8, 0, 2, 6, 10 };

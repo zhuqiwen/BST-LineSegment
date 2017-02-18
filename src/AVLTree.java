@@ -19,7 +19,6 @@ public class AVLTree<K> extends BinarySearchTree<K> {
     }
 
     /**
-     * TODO
      *
      * Inserts the given key into this AVL tree such that the ordering
      * property for a BST and the balancing property for an AVL tree are
@@ -36,11 +35,14 @@ public class AVLTree<K> extends BinarySearchTree<K> {
             rebalance(q);
         }
 
-
 //        System.out.println("root: " + root.data);
         return search(key);
     }
 
+    /**
+     * do the re-balance by determine which rotation should be carried out.
+     * @param low
+     */
     private void rebalance(Node low)
     {
         Node middle = low.parent;
@@ -59,15 +61,14 @@ public class AVLTree<K> extends BinarySearchTree<K> {
                 if(lessThan.test(low.data, middle.data))
                 {
                     //RL
-//                    return;
                     rightLeftRotate(high);
+
                 }
 
                 if(lessThan.test(middle.data, low.data))
                 {
                     //RR
                     rightRotate(high);
-//                    return;
                 }
             }
 
@@ -93,6 +94,11 @@ public class AVLTree<K> extends BinarySearchTree<K> {
             }
 
             //walk up
+            low.fixHeight();
+            middle.fixHeight();
+            high.fixHeight();
+
+
             low = middle;
             middle = high;
             high = high.parent;
@@ -100,6 +106,10 @@ public class AVLTree<K> extends BinarySearchTree<K> {
 
     }
 
+    /**
+     * perform LL rotation on pivot
+     * @param pivot
+     */
     private void leftRotate(Node pivot)
     {
 
@@ -138,6 +148,10 @@ public class AVLTree<K> extends BinarySearchTree<K> {
 
     }
 
+    /**
+     * perform RR rotation on pivot
+     * @param pivot
+     */
     private void rightRotate(Node pivot)
     {
         Node middle = pivot.right;
@@ -175,6 +189,10 @@ public class AVLTree<K> extends BinarySearchTree<K> {
         middle.fixHeight();
     }
 
+    /**
+     * perform LR rotation on pivot
+     * @param pivot
+     */
     private void leftRightRotate(Node pivot)
     {
         Node middle = pivot.left;
@@ -225,6 +243,10 @@ public class AVLTree<K> extends BinarySearchTree<K> {
 
     }
 
+    /**
+     * perform RL rotation on pivot
+     * @param pivot
+     */
     private void rightLeftRotate(Node pivot)
     {
         Node middle = pivot.right;

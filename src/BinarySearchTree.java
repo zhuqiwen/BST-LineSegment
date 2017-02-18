@@ -42,11 +42,15 @@ public class BinarySearchTree<K> implements Tree<K> {
             this.left = left;
             //make sure a new node is not a deleted-node.
             this.dirty = false;
-            this.height = 1;
-//            this.balanceFactor = getBalanceFactor();
+            this.fixHeight();
+
         }
 
 
+        /**
+         * calculate balance factor for current node
+         * @return int
+         */
         protected int getBalanceFactor()
         {
             // has both children
@@ -85,39 +89,40 @@ public class BinarySearchTree<K> implements Tree<K> {
          * O(1) time.
          */
         protected void fixHeight() {
-            if (this.isLeaf()) {
+
+            if(this.isLeaf())
+            {
                 this.height = 1;
             }
-            else if (this.left != null && this.right != null)
+            else if(this.left == null)
             {
-                this.height = Math.max(this.left.height, this.right.height) + 1;
+                this.height = this.right.height + 1;
             }
-            else if (this.left != null)
+            else if(this.right == null)
             {
                 this.height = this.left.height + 1;
-            } else if (this.right != null) {
-                this.height = this.right.height + 1;
-
-//            System.out.println("current node -- " + this.get() + ": height --" + this.height);
+            }
+            else
+            {
+                this.height = 1 + Math.max(this.left.height, this.right.height);
             }
         }
 
         /**
-         * TODO
-         *
-         * Returns the data in this node.
+         *  return data of current node
+         * @return
          */
         public K get()
         {
             return data;
         }
 
+
         /**
-         * TODO
-         *
-         * Returns the location of the node containing the inorder predecessor
+         *  Returns the location of the node containing the inorder predecessor
          * of this node.
          * left -> root -> right
+         * @return Node
          */
         public Node getBefore()
         {
@@ -142,12 +147,13 @@ public class BinarySearchTree<K> implements Tree<K> {
             return currParent;
         }
 
+
         /**
-         * TODO
          *
          * Returns the location of the node containing the inorder successor
          * of this node.
          * left -> root -> right
+         * @return Node
          */
         public Node getAfter()
         {
@@ -174,6 +180,11 @@ public class BinarySearchTree<K> implements Tree<K> {
         }
 
 
+        /**
+         * find the max node in left sub tree
+         * @param node
+         * @return Node
+         */
         private Node maxInLeft(Node node)
         {
             while(node.right != null)
@@ -184,6 +195,11 @@ public class BinarySearchTree<K> implements Tree<K> {
             return node;
         }
 
+        /**
+         * find the min node in right sub tree
+         * @param node
+         * @return Node
+         */
         private Node minInRight(Node node)
         {
             while (node.left != null)
@@ -207,7 +223,6 @@ public class BinarySearchTree<K> implements Tree<K> {
     }
 
     /**
-     * TODO
      *
      * Looks up the key in this tree and, if found, returns the (possibly dirty)
      * location containing the key.
@@ -218,6 +233,12 @@ public class BinarySearchTree<K> implements Tree<K> {
         return searchHelper(key, root);
     }
 
+    /**
+     * recursively follow a path to search in the BST
+     * @param key
+     * @param node
+     * @return Node
+     */
     private Node searchHelper(K key, Node node)
     {
         if(node == null)
@@ -245,16 +266,24 @@ public class BinarySearchTree<K> implements Tree<K> {
      */
     public int height()
     {
-//        System.out.println(root.right.height);
-//        return Math.max(root.left.height, root.right.height) + 1;
         return heightHelper(root);
     }
 
+    /**
+     * the height of a certain node is max(left, right) + 1
+     * @param node
+     * @return
+     */
     private int heightHelper(Node node)
     {
         if(node == null)
         {
             return 0;
+        }
+
+        if(node.isLeaf())
+        {
+            return 1;
         }
 
         return Math.max(
@@ -264,7 +293,6 @@ public class BinarySearchTree<K> implements Tree<K> {
     }
 
     /**
-     * TODO
      *
      * Clears all the keys from this tree. Runs in O(1) time!
      */
@@ -282,7 +310,6 @@ public class BinarySearchTree<K> implements Tree<K> {
     }
 
     /**
-     * TODO
      *
      * Inserts the given key into this BST, as a leaf, where the path
      * to the leaf is determined by the predicate provided to the tree
@@ -305,6 +332,7 @@ public class BinarySearchTree<K> implements Tree<K> {
         {
             n++;
             root = insertHelper(key, root);
+
         }
         //if the key is already in bst
         else
@@ -319,7 +347,11 @@ public class BinarySearchTree<K> implements Tree<K> {
         return search(key);
     }
 
-    // a helper to set dirty to false for existing keys
+
+    /**
+     * a helper to set dirty to false for existing keys
+     * @param node
+     */
     private void undoDirty(Node node)
     {
         n++;
@@ -327,6 +359,12 @@ public class BinarySearchTree<K> implements Tree<K> {
     }
 
 
+    /**
+     * by comparing key with a node.data, determines where the a new node of key should be placed
+     * @param key
+     * @param node
+     * @return Node
+     */
     private Node insertHelper(K key, Node node)
     {
         // if root is empty
@@ -334,7 +372,6 @@ public class BinarySearchTree<K> implements Tree<K> {
         {
             return new Node(key);
         }
-
 
 
         // if key < node.data
@@ -360,7 +397,6 @@ public class BinarySearchTree<K> implements Tree<K> {
     }
 
     /**
-     * TODO
      *
      * Returns true iff the given key is in this BST.
      */
@@ -376,7 +412,6 @@ public class BinarySearchTree<K> implements Tree<K> {
     }
 
     /**
-     * TODO
      *
      * Removes the key from this BST. If the key is not in the tree,
      * nothing happens. Implement the removal using lazy deletion.
@@ -392,7 +427,6 @@ public class BinarySearchTree<K> implements Tree<K> {
     }
 
     /**
-     * TODO
      *
      * Clears out all dirty nodes from this BST.
      *
@@ -412,7 +446,6 @@ public class BinarySearchTree<K> implements Tree<K> {
     }
 
     /**
-     * TODO
      *
      * Returns a sorted list of all the keys in this tree.
      */
@@ -424,6 +457,11 @@ public class BinarySearchTree<K> implements Tree<K> {
         return keysList;
     }
 
+    /**
+     * return all non-dirty keys on the path following a certain node
+     * @param keysList
+     * @param node
+     */
     private void keysHelper(List<K> keysList, Node node)
     {
         if(node == null)
