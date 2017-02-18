@@ -93,12 +93,12 @@ public class AVLTree<K> extends BinarySearchTree<K> {
 
             }
 
-            //walk up
+            //don't forget to keep heights of each node up-to-date.
             low.fixHeight();
             middle.fixHeight();
             high.fixHeight();
 
-
+            //walk up
             low = middle;
             middle = high;
             high = high.parent;
